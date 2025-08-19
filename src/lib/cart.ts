@@ -81,7 +81,7 @@ function addToLocalCart(product: Product, quantity: number) {
     const existingCart = localStorage.getItem('wafarle_cart')
     console.log('📋 Existing cart data:', existingCart)
     
-    let cart = existingCart ? JSON.parse(existingCart) : { items: [] }
+    const cart = existingCart ? JSON.parse(existingCart) : { items: [] }
     console.log('🔍 Parsed cart structure:', cart)
     
     // البحث عن المنتج في السلة

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { FiCheckCircle, FiDownload, FiPackage, FiMail, FiPhone, FiCalendar, FiDollarSign } from 'react-icons/fi'
@@ -35,7 +35,7 @@ interface Order {
   order_items: OrderItem[]
 }
 
-export default function CheckoutSuccessPage() {
+function CheckoutSuccessPageContent() {
   const searchParams = useSearchParams()
   const orderId = searchParams.get('orderId')
   const [order, setOrder] = useState<Order | null>(null)
@@ -298,5 +298,13 @@ export default function CheckoutSuccessPage() {
       </div>
     </div>
     </Layout>
+  )
+}
+
+export default function CheckoutSuccessPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CheckoutSuccessPageContent />
+    </Suspense>
   )
 }

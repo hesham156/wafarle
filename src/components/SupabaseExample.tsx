@@ -3,8 +3,13 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
 
+// تعريف نوع البيانات
+interface TableData {
+  [key: string]: unknown
+}
+
 export default function SupabaseExample() {
-  const [data, setData] = useState<any[]>([])
+  const [data, setData] = useState<TableData[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [tableName, setTableName] = useState('')
@@ -135,9 +140,9 @@ export default function SupabaseExample() {
       <div className="mt-6 p-4 bg-gray-50 rounded-lg">
         <h4 className="font-semibold text-gray-800 mb-2">تعليمات:</h4>
         <ul className="text-sm text-gray-600 space-y-1">
-          <li>• اضغط "اختبار الاتصال" للتأكد من عمل Supabase</li>
+          <li>• اضغط &quot;اختبار الاتصال&quot; للتأكد من عمل Supabase</li>
           <li>• أدخل اسم الجدول الذي تريد استعلامه</li>
-          <li>• اضغط "جلب البيانات" لعرض محتويات الجدول</li>
+          <li>• اضغط &quot;جلب البيانات&quot; لعرض محتويات الجدول</li>
           <li>• تأكد من إنشاء الجداول في لوحة تحكم Supabase أولاً</li>
         </ul>
       </div>

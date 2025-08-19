@@ -37,17 +37,7 @@ export default function RoleManagement({ currentUser }: RoleManagementProps) {
     inactive: 0
   })
 
-  // التحقق من صلاحية الوصول
-  if (!hasPermission(currentUser.role, 'manage_users')) {
-    return (
-      <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
-        <FiShield className="text-red-500 text-4xl mx-auto mb-4" />
-        <h3 className="text-xl font-semibold text-red-800 mb-2">غير مصرح لك</h3>
-        <p className="text-red-600">ليس لديك صلاحية لإدارة المستخدمين</p>
-      </div>
-    )
-  }
-
+  // Move useEffect hooks to the top before any conditional returns
   useEffect(() => {
     fetchUsers()
   }, [])
@@ -56,7 +46,20 @@ export default function RoleManagement({ currentUser }: RoleManagementProps) {
     filterUsers()
   }, [users, searchTerm, roleFilter, showInactive])
 
-    async function fetchUsers() {
+  // Check permissions after hooks
+  if (!hasPermission(currentUser.role, 'manage_users')) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="bg-white rounded-xl shadow-lg p-8 text-center max-w-md">
+          <div className="text-red-500 text-6xl mb-4">🚫</div>
+          <h3 className="text-xl font-semibold text-red-800 mb-2">غير مصرح لك</h3>
+          <p className="text-red-600">ليس لديك صلاحية لإدارة المستخدمين</p>
+        </div>
+      </div>
+    )
+  }
+
+  async function fetchUsers() {
     try {
       setLoading(true)
       setError('')

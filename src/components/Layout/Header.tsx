@@ -5,18 +5,39 @@ import { supabase } from '@/lib/supabase'
 import { UserWithRole, UserRole, hasPermission } from '@/types/roles'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { 
-  FiShoppingCart, 
-  FiUser, 
-  FiMenu, 
-  FiX, 
-  FiSearch, 
+import {
+  FiShoppingCart,
+  FiUser,
+  FiMenu,
+  FiX,
+  FiSearch,
   FiHeart,
   FiShield,
   FiLogOut
 } from 'react-icons/fi'
 import CurrencySelector from '@/components/CurrencySelector'
 import { useCurrency } from '@/contexts/CurrencyContext'
+
+// تعريف أنواع البيانات
+interface CartItem {
+  id: string
+  quantity: number
+  product?: {
+    name: string
+    price: number
+  }
+  price?: number
+}
+
+interface SearchResult {
+  id: string
+  type: string
+  name: string
+  description?: string
+  category?: string
+  price: number
+  image_url?: string
+}
 
 export default function Header() {
   const { formatPrice } = useCurrency()
@@ -28,7 +49,7 @@ export default function Header() {
   const [cartTotal, setCartTotal] = useState(0)
   const [searchQuery, setSearchQuery] = useState('')
   const [showSearchResults, setShowSearchResults] = useState(false)
-  const [searchResults, setSearchResults] = useState<any[]>([])
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([])
   const [searching, setSearching] = useState(false)
   const router = useRouter()
 
@@ -50,7 +71,7 @@ export default function Header() {
       console.log('🔍 Header: Parsed cart:', cart)
       
       // استخراج العناصر
-      let items = []
+      let items: CartItem[] = []
       if (cart.items && Array.isArray(cart.items)) {
         items = cart.items
       } else if (Array.isArray(cart)) {
@@ -65,9 +86,11 @@ export default function Header() {
       let count = 0
       let total = 0
       
-      items.forEach((item: any) => {
-        const quantity = parseInt(item.quantity) || 1
-        const price = parseFloat(item.product?.price || item.price || 0)
+      items.forEach((item: CartItem) => {
+        const quantity = typeof item.quantity === 'string' ? parseInt(item.quantity) || 1 : item.quantity
+        const price = typeof item.product?.price === 'string' ? parseFloat(item.product.price) || 0 : 
+                     typeof item.price === 'string' ? parseFloat(item.price) || 0 :
+                     item.product?.price || item.price || 0
         
         count += quantity
         total += price * quantity
@@ -202,7 +225,7 @@ export default function Header() {
         console.error('Error searching products:', productsError)
       }
 
-      const results = [
+      const results: SearchResult[] = [
         ...(products || []).map(p => ({ ...p, type: 'product' })),
       ]
 
@@ -223,7 +246,7 @@ export default function Header() {
     }
   }
 
-  const handleSearchResultClick = (result: any) => {
+  const handleSearchResultClick = (result: SearchResult) => {
     if (result.type === 'product') {
       router.push(`/products/${result.id}`)
     }

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { UserRole, ROLES, UserWithRole } from '@/types/roles'
 import { FiUser, FiMail, FiShield, FiSettings, FiLogOut, FiEdit2 } from 'react-icons/fi'
 
@@ -22,10 +23,18 @@ export default function UserProfile() {
         if (user) {
           // تحويل المستخدم إلى UserWithRole مع تحديد الدور الافتراضي
           const userRole = (user.user_metadata.role as UserRole) || UserRole.USER
+          
+          // التأكد من وجود البريد الإلكتروني
+          if (!user.email) {
+            throw new Error('البريد الإلكتروني مطلوب')
+          }
+          
           const userWithRole: UserWithRole = {
             ...user,
+            email: user.email, // التأكد من أن البريد الإلكتروني معرف
             role: userRole,
-            created_at: user.created_at || new Date().toISOString()
+            created_at: user.created_at || new Date().toISOString(),
+            is_active: true // إضافة الخاصية المفقودة
           }
           setUser(userWithRole)
         } else {
@@ -201,12 +210,12 @@ export default function UserProfile() {
 
           {/* Footer */}
           <div className="mt-8 pt-6 border-t border-gray-200 text-center">
-            <a
+            <Link
               href="/"
               className="text-blue-500 hover:text-blue-600 font-medium transition-colors"
             >
               العودة للصفحة الرئيسية
-            </a>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { supabase } from '@/lib/supabase'
 import { addToCart } from '@/lib/cart'
 import { useCurrency } from '@/contexts/CurrencyContext'
@@ -22,7 +22,7 @@ interface Product {
   created_at: string
 }
 
-export default function ProductsPage() {
+function ProductsPageContent() {
   const { formatPrice, convertPrice } = useCurrency()
   const searchParams = useSearchParams()
   const [products, setProducts] = useState<Product[]>([])
@@ -435,6 +435,7 @@ export default function ProductsPage() {
   )
 }
 
+// Move ProductCard component outside of ProductsPageContent
 interface ProductCardProps {
   product: Product
   viewMode: 'grid' | 'list'
@@ -497,16 +498,22 @@ function ProductCard({ product, viewMode, onAddToCart, onAddToWishlist, addingTo
                       <span className="text-2xl font-bold text-blue-600">{formatPrice(product.price)}</span>
                     )}
                   </div>
-                  <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                  <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
                     {product.category}
                   </span>
                 </div>
               </div>
-              <div className="flex flex-col gap-2 ml-4">
+              <div className="flex flex-col gap-2">
+                <button
+                  onClick={() => onAddToWishlist(product.id)}
+                  className="p-2 text-gray-600 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                >
+                  <FiHeart className="w-5 h-5" />
+                </button>
                 <button
                   onClick={() => onAddToCart(product)}
                   disabled={addingToCart}
-                  className={`px-4 py-2 rounded-lg flex items-center gap-2 transition-colors ${
+                  className={`px-6 py-2 rounded-lg flex items-center justify-center gap-2 transition-colors ${
                     addingToCart
                       ? 'bg-gray-400 text-white cursor-not-allowed'
                       : 'bg-blue-600 hover:bg-blue-700 text-white'
@@ -523,13 +530,6 @@ function ProductCard({ product, viewMode, onAddToCart, onAddToWishlist, addingTo
                       إضافة للسلة
                     </>
                   )}
-                </button>
-                <button
-                  onClick={() => onAddToWishlist(product.id)}
-                  className="border border-gray-300 hover:border-gray-400 text-gray-700 px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
-                >
-                  <FiHeart className="w-4 h-4" />
-                  المفضلة
                 </button>
               </div>
             </div>
@@ -622,5 +622,13 @@ function ProductCard({ product, viewMode, onAddToCart, onAddToWishlist, addingTo
         </button>
       </div>
     </div>
+  )
+}
+
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ProductsPageContent />
+    </Suspense>
   )
 }
