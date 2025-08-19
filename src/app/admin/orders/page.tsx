@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
-import { FiPackage, FiClock, FiCheckCircle, FiXCircle, FiEye, FiEdit, FiTrash2, FiSearch, FiFilter, FiCalendar, FiDollarSign, FiUser, FiX } from 'react-icons/fi'
+import { FiPackage, FiClock, FiCheckCircle, FiXCircle, FiTrash2, FiSearch, FiFilter, FiCalendar, FiDollarSign, FiUser, FiX } from 'react-icons/fi'
 import { useRouter } from 'next/navigation'
 import Layout from '@/components/Layout/Layout'
 import Modal from '@/components/UI/Modal'
