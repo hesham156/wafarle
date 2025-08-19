@@ -314,8 +314,8 @@ function ProductsPageContent() {
         )}
 
         {/* Filters and Search */}
-        <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 mb-6 sm:mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
             {/* Select All Checkbox */}
             <div className="flex items-center gap-2">
               <input
@@ -335,7 +335,7 @@ function ProductsPageContent() {
                 placeholder="البحث في المنتجات..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pr-10 pl-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full pr-10 pl-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
               />
               {searchTerm && (
                 <button
@@ -352,7 +352,7 @@ function ProductsPageContent() {
               <select
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
               >
                 <option value="all">جميع الفئات</option>
                 <option value="design">التصميم</option>
@@ -367,7 +367,7 @@ function ProductsPageContent() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
               >
                 <option value="newest">الأحدث</option>
                 <option value="price_low">السعر: من الأقل للأعلى</option>
@@ -382,21 +382,21 @@ function ProductsPageContent() {
                 onClick={() => setViewMode('grid')}
                 className={`p-2 rounded-lg ${viewMode === 'grid' ? 'bg-blue-100 text-blue-600' : 'text-gray-400 hover:text-gray-600'}`}
               >
-                <FiGrid className="w-5 h-5" />
+                <FiGrid className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
               <button
                 onClick={() => setViewMode('list')}
                 className={`p-2 rounded-lg ${viewMode === 'list' ? 'bg-blue-100 text-blue-600' : 'text-gray-400 hover:text-gray-600'}`}
               >
-                <FiList className="w-5 h-5" />
+                <FiList className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
             </div>
           </div>
         </div>
 
         {/* Results Count */}
-        <div className="mb-6">
-          <p className="text-gray-600">
+        <div className="mb-4 sm:mb-6">
+          <p className="text-sm sm:text-base text-gray-600">
             تم العثور على <span className="font-semibold text-blue-600">{filteredProducts.length}</span> منتج
             {selectedProducts.size > 0 && (
               <span className="mr-2 text-blue-600">
@@ -408,13 +408,13 @@ function ProductsPageContent() {
 
         {/* Products Grid/List */}
         {filteredProducts.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="text-gray-400 text-6xl mb-4">🔍</div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">لا توجد منتجات</h3>
-            <p className="text-gray-600">جرب تغيير معايير البحث أو الفلترة</p>
+          <div className="text-center py-8 sm:py-12">
+            <div className="text-gray-400 text-4xl sm:text-6xl mb-3 sm:mb-4">🔍</div>
+            <h3 className="text-base sm:text-lg font-medium text-gray-900 mb-2">لا توجد منتجات</h3>
+            <p className="text-sm sm:text-base text-gray-600">جرب تغيير معايير البحث أو الفلترة</p>
           </div>
         ) : (
-          <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6' : 'space-y-4'}>
+          <div className={viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6' : 'space-y-3 sm:space-y-4'}>
             {filteredProducts.map((product) => (
               <ProductCard
                 key={product.id}

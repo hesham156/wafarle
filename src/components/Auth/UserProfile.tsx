@@ -16,27 +16,12 @@ export default function UserProfile() {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const { data: { user }, error } = await supabase.auth.getUser()
+        const { getCurrentUser } = await import('@/lib/auth-utils')
         
-        if (error) throw error
-
-        if (user) {
-          // تحويل المستخدم إلى UserWithRole مع تحديد الدور الافتراضي
-          const userRole = (user.user_metadata.role as UserRole) || UserRole.USER
-          
-          // التأكد من وجود البريد الإلكتروني
-          if (!user.email) {
-            throw new Error('البريد الإلكتروني مطلوب')
-          }
-          
-          const userWithRole: UserWithRole = {
-            ...user,
-            email: user.email, // التأكد من أن البريد الإلكتروني معرف
-            role: userRole,
-            created_at: user.created_at || new Date().toISOString(),
-            is_active: true // إضافة الخاصية المفقودة
-          }
-          setUser(userWithRole)
+        const currentUser = await getCurrentUser()
+        
+        if (currentUser) {
+          setUser(currentUser)
         } else {
           // لا يوجد مستخدم، إعادة توجيه إلى تسجيل الدخول
           router.push('/auth/login')
