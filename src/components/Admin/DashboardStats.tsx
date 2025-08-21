@@ -30,7 +30,7 @@ export default function DashboardStats() {
       
       // إحصائيات المستخدمين
       const { count: usersCount } = await supabase
-        .from('auth.users')
+        .from('profiles')
         .select('*', { count: 'exact', head: true })
 
       // إحصائيات المنتجات
