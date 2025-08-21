@@ -73,8 +73,8 @@ export default function AdminPage() {
     { id: 'users', name: 'إدارة المستخدمين', icon: FiUsers },
     { id: 'products', name: 'إدارة المنتجات', icon: FiPackage },
     { id: 'orders', name: 'إدارة الطلبات', icon: FiShoppingCart },
-    { id: 'analytics', name: 'التحليلات', icon: FiBarChart },
     { id: 'settings', name: 'الإعدادات', icon: FiSettings },
+    { id: 'analytics', name: 'التحليلات', icon: FiBarChart },
   ]
 
   return (
@@ -160,22 +160,29 @@ export default function AdminPage() {
               </div>
             )}
             
+            {activeTab === 'settings' && (
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <div className="text-center py-12">
+                  <FiSettings className="text-gray-400 text-6xl mx-auto mb-4" />
+                  <h3 className="text-xl font-semibold text-gray-800 mb-2">إعدادات النظام</h3>
+                  <p className="text-gray-600 mb-6">إدارة شاملة لجميع إعدادات المتجر والنظام</p>
+                  <a
+                    href="/admin/settings"
+                    className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg transition-colors"
+                  >
+                    <FiSettings className="w-5 h-5" />
+                    إدارة الإعدادات
+                  </a>
+                </div>
+              </div>
+            )}
+            
             {activeTab === 'analytics' && (
               <div className="bg-white rounded-xl shadow-lg p-6">
                 <div className="text-center py-12">
                   <FiBarChart className="text-gray-400 text-6xl mx-auto mb-4" />
                   <h3 className="text-xl font-semibold text-gray-800 mb-2">التحليلات</h3>
                   <p className="text-gray-600">قريباً... سيتم إضافة التحليلات والإحصائيات</p>
-                </div>
-              </div>
-            )}
-            
-            {activeTab === 'settings' && (
-              <div className="bg-white rounded-xl shadow-lg p-6">
-                <div className="text-center py-12">
-                  <FiSettings className="text-gray-400 text-6xl mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2">إعدادات النظام</h3>
-                  <p className="text-gray-600">قريباً... سيتم إضافة إعدادات النظام</p>
                 </div>
               </div>
             )}
